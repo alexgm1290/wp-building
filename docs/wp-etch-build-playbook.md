@@ -90,10 +90,7 @@ Think of it like a building crew: one foreman, two tradespeople, a test bench, t
 - **Secrets** only in the cloud environment or Vault. Never in chat, files or memory.
 
 ## 6. Set up a new site (one time per site)
-1. In the site's wp-admin: Users > Profile > Application Passwords > name it "Claude" > Add > copy the code.
-2. In this project: Project settings > Environment > gear > Add secret. Type Basic, allowed website = the site's domain only, path prefix `/wp-json/`, username + that code.
-3. Same screen: add the domain to **Allowed domains** (without this the site returns 403).
-4. Tell Claude "done". wp-kit checks the role, versions, available routes and cache, writes `sites/<site>/profile.env`, and tests with a throwaway draft.
+Section 4, steps 1 and 2. Without the Allowed domains entry the site returns 403.
 Test sites: **alexg241.sg-host.com** is the blueprint source (read-only for tests). Make a SiteGround staging copy of it as the **sandbox** for web-lab.
 
 ## 7. Still open (as of 2026-11-18)
