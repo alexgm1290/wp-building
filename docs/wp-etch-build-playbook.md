@@ -33,19 +33,49 @@ Think of it like a building crew: one foreman, two tradespeople, a test bench, t
 | **Pace** | Performance advice. It does not compress images; the agent compresses them before upload. |
 | **Pulse** | Watches versions, updates and security. An Etch or ACSS update triggers a web-lab re-test. |
 
-## 4. Build a site from blank WordPress
-Each step writes one file into `/mnt/project-files/sites/<site>/`, so any thread can pick up where the last stopped.
+## 4. From an empty WordPress to a live site (step by step)
+"You" = Alex. Everything else is Claude. Each step ends with what you type to hand over. Files land in `/mnt/project-files/sites/<site>/`.
 
-| # | You type | What happens | You step in? |
+**Step 1. Create the site at the host (you, ~10 min)**
+- SiteGround: Site Tools > WordPress > Install & Manage > new WordPress. Cloudways: Add Application > WordPress. Any host works if it runs current WordPress with HTTPS.
+- Use a staging or temporary domain first; the real domain comes at the end.
+- Note the admin username. Keep the host's cache plugin installed and active (SiteGround: Speed Optimizer; Cloudways: Breeze), so Claude can purge cache.
+
+**Step 2. Connect Claude to the site (you, ~5 min)**
+- wp-admin > Users > Profile > Application Passwords > name "Claude" > Add > copy the code.
+- Project settings > Environment > gear: add the domain to **Allowed domains**, then **Add secret**: type Basic, the domain only, path prefix `/wp-json/`, your username + the code.
+- Type: **"New site <url> is ready"**. wp-kit checks access, versions, routes and cache, writes `profile.env`, and tests with a throwaway draft.
+
+**Step 3. Install the stack with Blueprint (you, ~10 min, in the browser)**
+- Get the zips: ask **"Build the Blueprint and Suite zips"** (they land in `/mnt/project-files/plugin-zips/`).
+- New site: Plugins > Add New > Upload > Blueprint zip > Activate.
+- Blueprint source (alexg241): TwoEleven > Blueprint > Blueprint source > **New setup code** (one use, 60 minutes).
+- New site: TwoEleven > Blueprint > New site > paste the code > **Check what it will do** > Apply. This installs Etch, the Etch theme, ACSS and SCF, and copies ACSS settings, Etch settings, components and field groups.
+- On the result screen: activate ACSS (one click) and paste the Etch license (Copy button; Etch can't be automated yet).
+- Type: **"Stack done on <site>"**. Claude checks versions and that Etch, ACSS and SCF answer.
+
+**Step 4. Our plugins with Suite (you upload once; Claude does the rest)**
+- New site: Plugins > Add New > Upload > Suite zip > Activate.
+- Type: **"Set up our plugins on <site>"**. Claude writes `site.json` (tracking, languages, accessibility, watcher, speed), shows a dry run, applies it after your OK, and reads it back. Keys go through Vault only.
+
+**Step 5. Plan the site (Claude, you approve)**
+- Type: **"Use the web kit to plan <site>"**, plus any brief, brand or old site link.
+- Claude writes `brief.md`, `brand.md` and `blueprint.md`: pages, content types and fields, media collections, components.
+- After your OK: custom post types and fields (SCF), media collections, compressed images with alt text, and an empty draft per page.
+
+**Step 6. Build each page (Claude, two gates for you)**
+| | You type | What happens | You step in? |
 |---|---|---|---|
-| 0 | "Add a new site: <url>" | wp-kit walks you through the password and secret (section 6), then reads the site and writes its profile. | Yes, once: create the password and secret |
-| 1 | "Use the web kit to plan <site>" | web-kit writes `blueprint.md`: pages, CPTs and fields, ACSS settings, components, media collections. | Approve the blueprint |
-| 2 | (continues) | Blueprint installs the stack; Suite applies `site.json`. Both run a dry run first and show what will change. | Upload plugin zips if missing |
-| 3 | "Build the <page> page" | `brief.md`, then copywriter and SEO write `copy.md`. | **Gate:** approve the copy |
-| 4 | (continues) | design-director writes `design-spec.yaml`; it must pass the spec check. | Approve the design if asked |
-| 5 | (continues) | etch-kit builds a **draft** on staging/sandbox through its gates (section 5). | No |
-| 6 | (continues) | Review at 375 and 1440 width, then audits (SEO, content, accessibility, tracking). Each fix gets an owner. | Read the one-line report |
-| 7 | "Go live" | Publish, purge cache, check the live page. | **Gate:** only your typed words |
+| a | "Build the <page> page" | copywriter + SEO write `copy.md`. | **Gate:** approve the copy |
+| b | (continues) | design-director writes `design-spec.yaml`; it must pass the spec check. | Approve the design if asked |
+| c | (continues) | etch-kit builds the draft through its gates (section 5). | No |
+| d | (continues) | Review at 375 and 1440 width, then audits (SEO, content, accessibility, tracking). Each fix gets an owner. | Read the one-line report |
+| e | (continues) | Lingua translates once the copy is approved, if the site is bilingual. | Approve translations if asked |
+
+**Step 7. Go live (you, with Claude)**
+- Host: point the real domain at the site and turn on SSL (DNS is yours).
+- Type: **"Go live"**. Claude publishes, turns search indexing on, purges cache, and checks every page at the real domain.
+- After launch: Pulse watches updates and uptime; an Etch or ACSS update triggers a web-lab re-test.
 
 ## 5. The rules
 - **Etch best practices are enforced, not suggested.** etch-kit has gates a build cannot skip:
