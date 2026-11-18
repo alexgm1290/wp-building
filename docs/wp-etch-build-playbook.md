@@ -102,6 +102,7 @@ Test sites: **alexg241.sg-host.com** is the blueprint source (read-only for test
 - **To do:** rewrite web-kit; update etch-expert to Etch 1.8; ACSS settings mode; merge art-director into design-director; fix old skill names in the auditors.
 
 ## 8. Where things live
+- How far this can go unattended, weaknesses and the roadmap: `/mnt/project-files/playbook/autonomy-roadmap.md` (repo: `docs/autonomy-roadmap.md`).
 - Plans and research: `/mnt/project-files/skills-audit/` (target-architecture.md is the full plan; blueprint-site-probe.md lists every proven API route).
 - Skill drafts: `/mnt/project-files/skills-drafts/`.
 - Scripts, fixtures, rules: repo `alexgm1290/twoeleven-studio`, folder `skills/` (etch-page-editor/scripts, etch-builder, etch-expert/reference, acss-expert).
