@@ -22,11 +22,11 @@ Think of it like a building crew: one foreman, two tradespeople, a test bench, t
 | **seo-geo-auditor** | Titles, meta, headings, schema; checked before writing. | live |
 | Other auditors | site-content-auditor, tracking-auditor, security-auditor, accessibility: the final audit. | live |
 
-## 3. The plugins (ours)
+## 3. The plugins (ours; all merged to main in twoeleven-studio, 2026-11-18)
 | Plugin | What it does in the build |
 |---|---|
 | **Blueprint** | Turns a blank WordPress into our stack: installs Etch, the Etch theme, ACSS and SCF, and copies ACSS settings, Etch settings, components and field groups from the blueprint site. Has Undo. |
-| **Suite** | Installs and configures all our other plugins from one file per site (`site.json`). Keys live in Vault, never in the file. |
+| **Suite** | Installs and configures Signal, Lingua, Clearway, Pulse and Pace from one file per site (`site.json`), over the API. Keys live in Vault, never in the file. |
 | **Signal** | Tracking IDs and cookie consent. |
 | **Lingua** | Translation (English/Spanish). |
 | **Clearway** | Accessibility fixes and scans. |
